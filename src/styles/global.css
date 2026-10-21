@@ -617,7 +617,8 @@ html.page-trip {
   gap: var(--trip-card-gap);
 }
 
-.trip-card {
+.trip-card,
+.about-card {
   width: min(var(--trip-card-max), 100%);
 }
 
