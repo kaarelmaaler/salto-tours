@@ -217,6 +217,10 @@ html.page-trip {
   border-radius: 15px;
 }
 
+.card.trip-page-card {
+  margin-bottom: 75px;
+}
+
 .register {
   display: inline-block;
   margin: 0 0 26px;
@@ -675,9 +679,11 @@ html.page-trip {
 }
 
 .trip-card-cover {
+  display: block;
   border-radius: 15px;
   overflow: hidden;
   aspect-ratio: 3 / 2;
+  cursor: pointer;
 }
 
 @media (min-width: 769px) {

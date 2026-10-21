@@ -50,16 +50,16 @@ const range = datePill(trip);
     </a>
     {
       trip.cover && (
-        <div class="trip-card-cover">
+        <a class="trip-card-cover" href={tripPath(trip.slug)} aria-label={`Vaata reisi: ${trip.title}`}>
           <img
             src={trip.cover.src}
-            alt={trip.cover.alt}
+            alt=""
             width="1000"
             height="667"
             loading={priority ? undefined : "lazy"}
             decoding="async"
           />
-        </div>
+        </a>
       )
     }
   </div>

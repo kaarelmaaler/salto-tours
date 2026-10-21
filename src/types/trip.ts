@@ -7,6 +7,7 @@ export type TripImage = {
 /** Homepage preview. The cover is coverImage, or the first gallery image when that is empty. */
 export type HomepageTrip = {
   slug: string;
+  title: string;
   headline: string;
   lede: string;
   datesDisplay: string;

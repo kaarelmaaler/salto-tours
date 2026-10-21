@@ -41,6 +41,7 @@ const tripFields = `{
 }`;
 
 const homepageTripFields = `{
+  title,
   "slug": slug.current,
   startDate,
   endDate,
@@ -151,6 +152,7 @@ function mapFacts(facts: SanityTrip["facts"]): TripFact[] {
 }
 
 type SanityHomepageTrip = {
+  title?: string | null;
   slug?: string | null;
   startDate?: string | null;
   endDate?: string | null;
@@ -175,6 +177,7 @@ export function mapHomepageTrip(trip: SanityHomepageTrip): HomepageTrip | null {
   const headline = clean(trip.headline) || "Reis";
   return {
     slug,
+    title: clean(trip.title) || headline,
     headline,
     lede: clean(trip.intro),
     datesDisplay: clean(trip.datesDisplay),
