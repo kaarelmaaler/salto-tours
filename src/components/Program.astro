@@ -1,0 +1,29 @@
+---
+import type { ProgramGroup } from "../types/trip";
+
+interface Props {
+  groups: ProgramGroup[];
+}
+
+const { groups } = Astro.props;
+const visible = groups.filter((group) => group.rows.length > 0);
+---
+
+{
+  visible.length > 0 && (
+    <section class="program-section">
+      <h2>Programm</h2>
+      {visible.map((group) => (
+        <div class="program-trip">
+          {group.kicker && <p class="program-kicker">{group.kicker}</p>}
+          {group.rows.map((row) => (
+            <div class="program-row">
+              <strong class="program-date">{row.date}</strong>
+              <div class="program-text">{row.text}</div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+  )
+}

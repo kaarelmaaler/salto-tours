@@ -1,0 +1,33 @@
+---
+import { site } from "../data/site";
+import { getNextTrip, tripPath } from "../lib/trips";
+
+interface Props {
+  current?: "trips" | "about";
+}
+
+const { current } = Astro.props;
+const isHome = Astro.url.pathname === "/";
+const nextTrip = isHome ? await getNextTrip() : undefined;
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="/" aria-label="SALTO">
+      <img src="/images/logo-salto.svg" alt="SALTO" width="130" height="32" />
+    </a>
+    {
+      nextTrip && (
+        <p class="next-trip">
+          <span class="next-trip-label">{site.nav.next}:</span>{" "}
+          <a href={tripPath(nextTrip.slug)}>{nextTrip.name}</a>
+        </p>
+      )
+    }
+    <p class="site-nav">
+      <a href="/" aria-current={current === "trips" ? "page" : undefined}>{site.nav.trips}</a>
+      <span class="nav-sep">/</span>
+      <a href="/meist" aria-current={current === "about" ? "page" : undefined}>{site.nav.about}</a>
+    </p>
+  </div>
+</header>

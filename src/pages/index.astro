@@ -1,11 +1,27 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import TripCard from "../components/TripCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getSiteContent } from "../lib/site-content";
+import { getHomepageTrips } from "../lib/trips";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const trips = await getHomepageTrips();
+const siteContent = await getSiteContent();
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title={`Reisid – ${siteContent.siteTitle}`} current="trips">
+  <h1 class="visually-hidden">Reisid</h1>
+  {
+    trips.length > 0 ? (
+      <div class="trip-list">
+        {trips.map((trip, index) => (
+          <TripCard trip={trip} priority={index === 0} />
+        ))}
+      </div>
+    ) : (
+      <article class="card">
+        <h1>Reisid</h1>
+        <p class="lede">Hetkel avaldatud reise ei ole.</p>
+      </article>
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import type { TripFact } from "../types/trip";
+
+interface Props {
+  facts: TripFact[];
+}
+
+const { facts } = Astro.props;
+---
+
+{
+  facts.length > 0 && (
+    <div class="trip-facts">
+      {facts.map((fact) => (
+        <div class="info-row">
+          <strong>{fact.label}</strong>
+          <span>{fact.value}</span>
+        </div>
+      ))}
+    </div>
+  )
+}

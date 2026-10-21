@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getSiteContent } from "../lib/site-content";
+
+const siteContent = await getSiteContent();
+---
+
+<BaseLayout title={`Meist – ${siteContent.siteTitle}`} current="about">
+  <article class="card about-card">
+    <h1>Meist</h1>
+    {siteContent.aboutHtml && <div class="lede"><div class="prose" set:html={siteContent.aboutHtml} /></div>}
+    <div class="trip-facts">
+      <div class="info-row">
+        <strong>Kontakt:</strong>
+        <span><a href={`mailto:${siteContent.contactEmail}`}>{siteContent.contactEmail}</a></span>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+import TripLayout from "../../layouts/TripLayout.astro";
+import { getPublishedTrips } from "../../lib/trips";
+import type { Trip } from "../../types/trip";
+
+export async function getStaticPaths() {
+  const trips = await getPublishedTrips();
+  return trips.map((trip) => ({
+    params: { slug: trip.slug },
+    props: { trip },
+  }));
+}
+
+interface Props {
+  trip: Trip;
+}
+
+const { trip } = Astro.props;
+---
+
+<TripLayout trip={trip} />

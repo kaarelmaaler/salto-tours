@@ -1,0 +1,30 @@
+---
+import type { TripImage } from "../types/trip";
+
+interface Props {
+  images: TripImage[];
+  label?: string;
+}
+
+const { images, label = "Reisifotod" } = Astro.props;
+---
+
+{
+  images.length > 0 && (
+    <div class="gallery-slot">
+      <div class="gallery" aria-label={label}>
+        {images.map((image, index) => (
+          <button type="button" class="gallery-item" aria-label={image.alt}>
+            <img
+              src={image.src}
+              data-full={image.full}
+              alt={image.alt}
+              loading={index > 1 ? "lazy" : undefined}
+              decoding="async"
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}

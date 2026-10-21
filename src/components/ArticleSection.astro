@@ -1,0 +1,17 @@
+---
+import type { ArticleParagraph } from "../types/trip";
+
+interface Props {
+  heading: string;
+  paragraphs: ArticleParagraph[];
+}
+
+const { heading, paragraphs } = Astro.props;
+---
+
+<section class="article article-section">
+  <h2>{heading}</h2>
+  <div class="article-copy">
+    {paragraphs.map((paragraph) => <p class={paragraph.class} set:html={paragraph.html} />)}
+  </div>
+</section>

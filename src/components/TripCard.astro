@@ -1,0 +1,66 @@
+---
+import { tripPath } from "../lib/trips";
+import type { HomepageTrip } from "../types/trip";
+
+interface Props {
+  trip: HomepageTrip;
+  priority?: boolean;
+}
+
+const { trip, priority = false } = Astro.props;
+
+function dateParts(iso: string): {year: number; month: number; day: number} | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!match) return null;
+  return {year: Number(match[1]), month: Number(match[2]), day: Number(match[3])};
+}
+
+function pad(value: number): string {
+  return String(value).padStart(2, "0");
+}
+
+/** Short numeric datesDisplay, otherwise a compact range from the trip dates. */
+function datePill(trip: HomepageTrip): string {
+  const display = trip.datesDisplay;
+  if (display && display.length <= 18 && !/[a-zäöüõ]/i.test(display)) return display;
+
+  const start = dateParts(trip.startDate);
+  const end = dateParts(trip.endDate);
+  if (!start) return display;
+  const startDay = pad(start.day);
+  if (!end) return `${startDay}.${pad(start.month)}`;
+  const endDay = pad(end.day);
+  const endMonth = pad(end.month);
+  if (start.year === end.year && start.month === end.month) return `${startDay}–${endDay}.${endMonth}`;
+  return `${startDay}.${pad(start.month)}–${endDay}.${endMonth}`;
+}
+
+const range = datePill(trip);
+---
+
+<article class="card trip-card">
+  <div class="trip-card-body">
+    <a class="trip-card-link" href={tripPath(trip.slug)}>
+      <span class="trip-card-meta">
+        <span class="date-pill">{range}</span>
+        <span class="cta-pill">Loe lähemalt</span>
+      </span>
+      <h2>{trip.headline}</h2>
+      {trip.lede && <p class="trip-card-lede">{trip.lede}</p>}
+    </a>
+    {
+      trip.cover && (
+        <div class="trip-card-cover">
+          <img
+            src={trip.cover.src}
+            alt={trip.cover.alt}
+            width="1000"
+            height="667"
+            loading={priority ? undefined : "lazy"}
+            decoding="async"
+          />
+        </div>
+      )
+    }
+  </div>
+</article>

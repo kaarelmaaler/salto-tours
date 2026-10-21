@@ -1,0 +1,100 @@
+---
+import ArticleSection from "../components/ArticleSection.astro";
+import Gallery from "../components/Gallery.astro";
+import Program from "../components/Program.astro";
+import TripFacts from "../components/TripFacts.astro";
+import { getSiteContent } from "../lib/site-content";
+import type { Trip } from "../types/trip";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  trip: Trip;
+}
+
+const { trip } = Astro.props;
+const siteContent = await getSiteContent();
+---
+
+<BaseLayout title={`${trip.name} – ${siteContent.siteTitle}`} backgroundImage={trip.backgroundImage}>
+  <article class="card trip-page-card">
+    <div class="card-top">
+      <div class="intro">
+        {
+          trip.registerUrl ? (
+            <a class="register" href={trip.registerUrl} target="_blank" rel="noopener noreferrer">
+              Registreeri
+            </a>
+          ) : (
+            <p class="register">Registreeri</p>
+          )
+        }
+        <p class="month-label">{trip.monthLabel}</p>
+        <h1>{trip.headline}</h1>
+        <p class="lede">{trip.lede}</p>
+      </div>
+      <Gallery images={trip.images} />
+    </div>
+
+    <div class="card-bottom">
+      <div class="details">
+        <div class="details-body">
+          <TripFacts facts={trip.facts} />
+          <Program groups={trip.program} />
+          {
+            trip.included && (
+              <p class="included-info">
+                <strong>Hind sisaldab:</strong>
+                <span>{trip.included}</span>
+              </p>
+            )
+          }
+          {
+            trip.excluded && (
+              <p class="included-info">
+                <strong>Hind ei sisalda:</strong>
+                <span>{trip.excluded}</span>
+              </p>
+            )
+          }
+          {
+            trip.prices && trip.prices.length > 0 && (
+              <div class="trip-pricing">
+                {trip.prices.map((price) => (
+                  <p class="price-block">
+                    <strong>{price.label}</strong>
+                    <br />
+                    {price.lines.map((line, index) => (
+                      <>
+                        {index > 0 && <br />}
+                        {line}
+                      </>
+                    ))}
+                  </p>
+                ))}
+              </div>
+            )
+          }
+        </div>
+        {
+          trip.registerUrl ? (
+            <a class="register" href={trip.registerUrl} target="_blank" rel="noopener noreferrer">
+              Registreeri
+            </a>
+          ) : (
+            <p class="register">Registreeri</p>
+          )
+        }
+      </div>
+
+      {
+        trip.articles.length > 0 && (
+          <div class="story">
+            {trip.articles.map((article) => (
+              <ArticleSection heading={article.heading} paragraphs={article.paragraphs} />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </article>
+</BaseLayout>
