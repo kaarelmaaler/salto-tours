@@ -42,7 +42,7 @@ html.page-trip {
   --article-section-gap: 36px;
   --trip-card-gap: 12px;
   --trip-card-max: 700px;
-  --pill-stroke: inset 0 0 0 1px #1a1a1a;
+  --pill-stroke: 1px solid #000;
   box-sizing: border-box;
   min-height: 100%;
   margin: 0;
@@ -226,8 +226,10 @@ html.page-trip {
   margin: 0 0 26px;
   padding: 5px 8px;
   background: var(--green);
+  border: var(--pill-stroke);
   border-radius: 7px;
-  box-shadow: var(--pill-stroke);
+  box-shadow: none;
+  outline: none;
   color: #000;
   font-size: 15px;
   font-weight: 700;
@@ -235,6 +237,14 @@ html.page-trip {
   line-height: 1;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.register:hover,
+.register:focus,
+.register:focus-visible {
+  border: var(--pill-stroke);
+  box-shadow: none;
+  outline: none;
 }
 
 .card h1,
@@ -649,8 +659,10 @@ html.page-trip {
   align-items: center;
   margin: 0;
   padding: 5px 8px;
+  border: var(--pill-stroke);
   border-radius: 7px;
-  box-shadow: var(--pill-stroke);
+  box-shadow: none;
+  outline: none;
   font-size: 15px;
   font-weight: 700;
   font-stretch: 75%;
