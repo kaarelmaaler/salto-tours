@@ -57,6 +57,17 @@ Footer links, unless the address changes:
 - `https://salto.tours/`
 - `mailto:hei@salto.tours`
 
+## Footer row
+
+The footer is one table with four equal columns on a single row:
+
+1. **Salto reisid** — bold text, not a link
+2. **salto.tours** — link to `https://salto.tours/`
+3. **hei@salto.tours** — `mailto:hei@salto.tours`
+4. **Loobu uudiskirjast** — `href="{$unsubscribe}"`
+
+Text is black Arial. Links are black and underlined. On screens about 640px and narrower, those columns stack. Desktop and Outlook keep all four on one row.
+
 ## Paste into MailerLite
 
 1. Create a campaign and choose the Custom HTML editor.
@@ -70,17 +81,17 @@ If you write the plain-text version by hand, it also needs `{$unsubscribe}`.
 ## Do not remove
 
 - `<!DOCTYPE html>`, `<head>`, and `<body>`.
-- The `<style>` block. It only resets clients and tightens type and images under 640px. The layout stays in tables.
+- The `<style>` block. It resets clients, tightens type and images under 640px, and stacks the footer columns on small screens. The layout stays in tables.
 - `bgcolor`, inline `style`, and `role="presentation"` on the layout tables.
 - The `<!--[if mso]>` wrappers around the 640px column and the centered logo. Outlook uses those.
 - Image `alt` text and the `width` / `height:auto` pair.
-- The footer lines: Salto reisid, salto.tours, hei@salto.tours.
+- The footer row and its four cells: Salto reisid, salto.tours, hei@salto.tours, and the unsubscribe link.
 
 Outlook ignores `border-radius`, so cards and pills are square there. Other clients keep the rounded corners.
 
 ## Unsubscribe link
 
-This must stay in the footer:
+The fourth footer column must stay:
 
 ```html
 <a href="{$unsubscribe}" style="color:#000000; text-decoration:underline;">Loobu uudiskirjast</a>
