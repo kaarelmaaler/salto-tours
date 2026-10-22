@@ -18,53 +18,67 @@ const headingId = "newsletter-heading";
         Liitu uudiskirjaga ja saad uutest reisidest, kohtadest ja registreerimisest teada enne, kui need mujale jõuavad.
       </p>
       <form class="newsletter-form" data-newsletter-form>
-        <label class="visually-hidden" for={emailId}>
-          E-post
-        </label>
-        <input
-          id={emailId}
-          class="newsletter-input"
-          type="email"
-          name="email"
-          inputmode="email"
-          autocomplete="email"
-          autocapitalize="none"
-          spellcheck="false"
-          placeholder="Sinu e-post"
-          required
-        />
+        <div class="newsletter-controls">
+          <div class="newsletter-row">
+            <div class="newsletter-field">
+              <label class="visually-hidden" for={emailId}>
+                E-post
+              </label>
+              <input
+                id={emailId}
+                class="newsletter-input"
+                type="email"
+                name="email"
+                inputmode="email"
+                autocomplete="email"
+                autocapitalize="none"
+                spellcheck="false"
+                placeholder="Sinu e-post"
+                required
+              />
+              <p class="newsletter-success" role="status" aria-live="polite"></p>
+            </div>
+            <button class="newsletter-submit" type="submit">Liitun</button>
+          </div>
+          <p id={statusId} class="newsletter-status" role="status" aria-live="polite"></p>
+        </div>
         <div class="newsletter-hp" aria-hidden="true">
           <label for={hpId}>Website</label>
           <input id={hpId} type="text" name="hp" tabindex="-1" autocomplete="off" />
         </div>
-        <button class="newsletter-submit" type="submit">Liitun</button>
-        <p id={statusId} class="newsletter-status" role="status" aria-live="polite"></p>
       </form>
     </section>
   ) : (
     <form class="newsletter newsletter-compact" data-newsletter-form aria-label="Uudiskiri">
       <p class="newsletter-copy">Salto uudised otse postkasti.</p>
-      <label class="visually-hidden" for={emailId}>
-        E-post
-      </label>
-      <input
-        id={emailId}
-        class="newsletter-input"
-        type="email"
-        name="email"
-        inputmode="email"
-        autocomplete="email"
-        autocapitalize="none"
-        spellcheck="false"
-        placeholder="Sinu e-post"
-        required
-      />
+      <div class="newsletter-controls">
+        <div class="newsletter-row">
+          <div class="newsletter-field">
+            <label class="visually-hidden" for={emailId}>
+              E-post
+            </label>
+            <input
+              id={emailId}
+              class="newsletter-input"
+              type="email"
+              name="email"
+              inputmode="email"
+              autocomplete="email"
+              autocapitalize="none"
+              spellcheck="false"
+              placeholder="Sinu e-post"
+              required
+            />
+            <p class="newsletter-success" role="status" aria-live="polite"></p>
+          </div>
+          <button class="newsletter-submit" type="submit">Liitun</button>
+        </div>
+        <p id={statusId} class="newsletter-status" role="status" aria-live="polite"></p>
+      </div>
       <div class="newsletter-hp" aria-hidden="true">
         <label for={hpId}>Website</label>
         <input id={hpId} type="text" name="hp" tabindex="-1" autocomplete="off" />
       </div>
-      <button class="newsletter-submit" type="submit">Liitun</button>
-      <p id={statusId} class="newsletter-status" role="status" aria-live="polite"></p>
     </form>
   )
 }
@@ -92,13 +106,15 @@ const headingId = "newsletter-heading";
     const hp = form.querySelector<HTMLInputElement>("input[name='hp']");
     const button = form.querySelector<HTMLButtonElement>("button[type='submit']");
     const status = form.querySelector<HTMLElement>(".newsletter-status");
-    if (!email || !button || !status) return;
+    const success = form.querySelector<HTMLElement>(".newsletter-success");
+    const controls = form.querySelector<HTMLElement>(".newsletter-controls");
+    if (!email || !button || !status || !success || !controls) return;
 
     let pending = false;
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (pending) return;
+      if (pending || form.classList.contains("is-success")) return;
       pending = true;
       button.disabled = true;
       clearStatus(status);
@@ -119,13 +135,19 @@ const headingId = "newsletter-heading";
         if (!response.ok || !data || data.ok !== true) {
           throw new Error("signup failed");
         }
+        const width = Math.round(controls.getBoundingClientRect().width);
+        controls.style.width = `${width}px`;
+        controls.style.flex = "0 0 auto";
         email.value = "";
-        showStatus(status, successMessage);
+        email.disabled = true;
+        email.removeAttribute("required");
+        success.textContent = successMessage;
+        form.classList.add("is-success");
       } catch {
         showStatus(status, errorMessage);
+        button.disabled = false;
       } finally {
         pending = false;
-        button.disabled = false;
       }
     });
   });
