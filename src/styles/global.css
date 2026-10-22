@@ -1006,6 +1006,8 @@ html.page-trip {
 }
 
 .site-footer-signup {
+  display: flex;
+  justify-content: center;
   padding: 48px 24px;
 }
 
@@ -1039,12 +1041,10 @@ html.page-trip {
 
 .newsletter-compact {
   align-items: flex-start;
-  justify-content: center;
-  width: min(972px, 100%);
-  margin-top: 0;
-  margin-right: auto;
-  margin-bottom: 0;
-  margin-left: round(down, calc((100% - min(972px, 100%)) / 2), 1px);
+  justify-content: flex-start;
+  width: max-content;
+  max-width: 100%;
+  margin: 0;
 }
 
 .newsletter-controls {
@@ -1266,6 +1266,7 @@ html.page-trip {
   }
 
   .site-footer-signup {
+    justify-content: flex-start;
     padding: 28px var(--content-pad) 32px;
   }
 
@@ -1276,5 +1277,6 @@ html.page-trip {
 
   .newsletter-compact {
     justify-content: flex-start;
+    width: 100%;
   }
 }
