@@ -1,4 +1,5 @@
 ---
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getSiteContent } from "../lib/site-content";
 
@@ -15,5 +16,6 @@ const siteContent = await getSiteContent();
         <span><a href={`mailto:${siteContent.contactEmail}`}>{siteContent.contactEmail}</a></span>
       </div>
     </div>
+    <NewsletterSignup />
   </article>
 </BaseLayout>

@@ -1,0 +1,10 @@
+---
+import NewsletterSignup from "./NewsletterSignup.astro";
+
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const showCompactSignup = pathname !== "/meist";
+---
+
+<footer class:list={["site-footer", showCompactSignup && "site-footer-signup"]}>
+  {showCompactSignup && <NewsletterSignup variant="compact" />}
+</footer>

@@ -1,0 +1,132 @@
+---
+interface Props {
+  variant?: "section" | "compact";
+}
+
+const { variant = "section" } = Astro.props;
+const emailId = `newsletter-email-${variant}`;
+const statusId = `newsletter-status-${variant}`;
+const hpId = `newsletter-hp-${variant}`;
+const headingId = "newsletter-heading";
+---
+
+{
+  variant === "section" ? (
+    <section class="newsletter newsletter-section" aria-labelledby={headingId}>
+      <h2 id={headingId}>Tahad Salto järgmiste reisidega kursis olla?</h2>
+      <p class="newsletter-copy">
+        Liitu uudiskirjaga ja saad uutest reisidest, kohtadest ja registreerimisest teada enne, kui need mujale jõuavad.
+      </p>
+      <form class="newsletter-form" data-newsletter-form>
+        <label class="visually-hidden" for={emailId}>
+          E-post
+        </label>
+        <input
+          id={emailId}
+          class="newsletter-input"
+          type="email"
+          name="email"
+          inputmode="email"
+          autocomplete="email"
+          autocapitalize="none"
+          spellcheck="false"
+          placeholder="Sinu e-post"
+          required
+        />
+        <div class="newsletter-hp" aria-hidden="true">
+          <label for={hpId}>Website</label>
+          <input id={hpId} type="text" name="hp" tabindex="-1" autocomplete="off" />
+        </div>
+        <button class="newsletter-submit" type="submit">Liitun</button>
+        <p id={statusId} class="newsletter-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  ) : (
+    <form class="newsletter newsletter-compact" data-newsletter-form aria-label="Uudiskiri">
+      <p class="newsletter-copy">Salto uudised otse postkasti.</p>
+      <label class="visually-hidden" for={emailId}>
+        E-post
+      </label>
+      <input
+        id={emailId}
+        class="newsletter-input"
+        type="email"
+        name="email"
+        inputmode="email"
+        autocomplete="email"
+        autocapitalize="none"
+        spellcheck="false"
+        placeholder="Sinu e-post"
+        required
+      />
+      <div class="newsletter-hp" aria-hidden="true">
+        <label for={hpId}>Website</label>
+        <input id={hpId} type="text" name="hp" tabindex="-1" autocomplete="off" />
+      </div>
+      <button class="newsletter-submit" type="submit">Liitun</button>
+      <p id={statusId} class="newsletter-status" role="status" aria-live="polite"></p>
+    </form>
+  )
+}
+
+<script>
+  const endpoint = "/.netlify/functions/newsletter";
+  const successMessage = "Tehtud! Oled nüüd Salto uudiskirjas.";
+  const errorMessage = "Midagi läks valesti. Proovi palun uuesti.";
+
+  function showStatus(status: HTMLElement, message: string) {
+    status.textContent = message;
+    status.classList.add("is-visible");
+  }
+
+  function clearStatus(status: HTMLElement) {
+    status.textContent = "";
+    status.classList.remove("is-visible");
+  }
+
+  document.querySelectorAll<HTMLFormElement>("[data-newsletter-form]").forEach((form) => {
+    if (form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
+
+    const email = form.querySelector<HTMLInputElement>("input[name='email']");
+    const hp = form.querySelector<HTMLInputElement>("input[name='hp']");
+    const button = form.querySelector<HTMLButtonElement>("button[type='submit']");
+    const status = form.querySelector<HTMLElement>(".newsletter-status");
+    if (!email || !button || !status) return;
+
+    let pending = false;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (pending) return;
+      pending = true;
+      button.disabled = true;
+      clearStatus(status);
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email.value,
+            hp: hp?.value ?? "",
+          }),
+        });
+        const data = await response.json().catch(() => null);
+        if (!response.ok || !data || data.ok !== true) {
+          throw new Error("signup failed");
+        }
+        email.value = "";
+        showStatus(status, successMessage);
+      } catch {
+        showStatus(status, errorMessage);
+      } finally {
+        pending = false;
+        button.disabled = false;
+      }
+    });
+  });
+</script>
