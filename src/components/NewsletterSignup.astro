@@ -49,6 +49,7 @@ const headingId = "newsletter-heading";
       </form>
     </section>
   ) : (
+    <div class="newsletter-compact-wrap">
     <form class="newsletter newsletter-compact" data-newsletter-form aria-label="Uudiskiri">
       <p class="newsletter-copy">Salto uudised otse postkasti.</p>
       <div class="newsletter-controls">
@@ -80,6 +81,7 @@ const headingId = "newsletter-heading";
         <input id={hpId} type="text" name="hp" tabindex="-1" autocomplete="off" />
       </div>
     </form>
+    </div>
   )
 }
 

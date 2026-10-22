@@ -1006,9 +1006,13 @@ html.page-trip {
 }
 
 .site-footer-signup {
-  display: flex;
-  justify-content: center;
   padding: 48px 24px;
+}
+
+.newsletter-compact-wrap {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
 }
 
 .newsletter-section {
@@ -1042,7 +1046,7 @@ html.page-trip {
 .newsletter-compact {
   align-items: flex-start;
   justify-content: flex-start;
-  width: max-content;
+  width: fit-content;
   max-width: 100%;
   margin: 0;
 }
@@ -1266,8 +1270,12 @@ html.page-trip {
   }
 
   .site-footer-signup {
-    justify-content: flex-start;
     padding: 28px var(--content-pad) 32px;
+  }
+
+  .newsletter-compact-wrap {
+    width: 100%;
+    margin-inline: 0;
   }
 
   .newsletter-section {
