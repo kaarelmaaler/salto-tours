@@ -245,7 +245,8 @@ html.page-trip {
   border-radius: 15px;
 }
 
-.card.trip-page-card {
+.card.trip-page-card,
+.about-card {
   margin-bottom: 75px;
 }
 
