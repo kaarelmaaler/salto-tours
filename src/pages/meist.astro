@@ -4,6 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { getSiteContent } from "../lib/site-content";
 
 const siteContent = await getSiteContent();
+const aboutImages = siteContent.aboutImages;
 ---
 
 <BaseLayout title={`Meist – ${siteContent.siteTitle}`} current="about">
@@ -16,6 +17,20 @@ const siteContent = await getSiteContent();
         <span><a href={`mailto:${siteContent.contactEmail}`}>{siteContent.contactEmail}</a></span>
       </div>
     </div>
+    {aboutImages.length > 0 && (
+      <div class="about-images" aria-label="Meist fotod">
+        {aboutImages.map((image, index) => (
+          <figure class="about-image">
+            <img
+              src={image.src}
+              alt={image.alt}
+              loading={index > 1 ? "lazy" : undefined}
+              decoding="async"
+            />
+          </figure>
+        ))}
+      </div>
+    )}
     <NewsletterSignup />
   </article>
 </BaseLayout>

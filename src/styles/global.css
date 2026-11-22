@@ -763,6 +763,25 @@ html.page-trip {
   margin-top: var(--section-gap);
 }
 
+.about-images {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: var(--section-gap);
+}
+
+.about-image {
+  margin: 0;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.about-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -918,6 +937,11 @@ html.page-trip {
 
   .lede {
     margin-top: 12px;
+  }
+
+  .about-images {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
   }
 
   .gallery {

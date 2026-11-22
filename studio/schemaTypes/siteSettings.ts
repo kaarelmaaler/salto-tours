@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export const siteSettings = defineType({
   name: 'siteSettings',
@@ -14,6 +14,24 @@ export const siteSettings = defineType({
       name: 'aboutText',
       title: 'About text',
       type: 'portableText',
+    }),
+    defineField({
+      name: 'aboutImages',
+      title: 'About images',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'image',
+          options: {hotspot: true},
+          fields: [
+            defineField({
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+            }),
+          ],
+        }),
+      ],
     }),
     defineField({
       name: 'contactEmail',
