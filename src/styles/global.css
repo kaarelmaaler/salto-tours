@@ -759,6 +759,21 @@ html.page-trip {
   object-position: center;
 }
 
+.about-top {
+  display: block;
+}
+
+.about-top--with-media {
+  display: grid;
+  grid-template-columns: minmax(0, 55fr) minmax(0, 45fr);
+  column-gap: 24px;
+  align-items: start;
+}
+
+.about-copy {
+  min-width: 0;
+}
+
 .about-card .trip-facts {
   margin-top: var(--section-gap);
 }
@@ -766,8 +781,13 @@ html.page-trip {
 .about-images {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: var(--section-gap);
+  gap: 12px;
+  min-width: 0;
+  margin: 0;
+}
+
+.about-images--single {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .about-image {
@@ -776,10 +796,16 @@ html.page-trip {
   overflow: hidden;
 }
 
+.about-images--single .about-image {
+  aspect-ratio: 3 / 4;
+}
+
 .about-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .visually-hidden {
@@ -795,7 +821,8 @@ html.page-trip {
 }
 
 @media (min-width: 769px) {
-  .trip-page-card {
+  .trip-page-card,
+  .about-card {
     padding-bottom: 75px;
   }
 
@@ -939,9 +966,18 @@ html.page-trip {
     margin-top: 12px;
   }
 
+  .about-top--with-media {
+    display: block;
+  }
+
   .about-images {
     grid-template-columns: minmax(0, 1fr);
     gap: 12px;
+    margin-top: var(--section-gap);
+  }
+
+  .about-images--single .about-image {
+    aspect-ratio: 3 / 4;
   }
 
   .gallery {

@@ -5,32 +5,41 @@ import { getSiteContent } from "../lib/site-content";
 
 const siteContent = await getSiteContent();
 const aboutImages = siteContent.aboutImages;
+const hasImages = aboutImages.length > 0;
+const singleImage = aboutImages.length === 1;
 ---
 
 <BaseLayout title={`Meist – ${siteContent.siteTitle}`} current="about">
   <article class="card about-card">
-    <h1>Meist</h1>
-    {siteContent.aboutHtml && <div class="lede"><div class="prose" set:html={siteContent.aboutHtml} /></div>}
-    <div class="trip-facts">
-      <div class="info-row">
-        <strong>Kontakt:</strong>
-        <span><a href={`mailto:${siteContent.contactEmail}`}>{siteContent.contactEmail}</a></span>
+    <div class:list={["about-top", {"about-top--with-media": hasImages}]}>
+      <div class="about-copy">
+        <h1>Meist</h1>
+        {siteContent.aboutHtml && <div class="lede"><div class="prose" set:html={siteContent.aboutHtml} /></div>}
+        <div class="trip-facts">
+          <div class="info-row">
+            <strong>Kontakt:</strong>
+            <span><a href={`mailto:${siteContent.contactEmail}`}>{siteContent.contactEmail}</a></span>
+          </div>
+        </div>
       </div>
+      {hasImages && (
+        <div
+          class:list={["about-images", {"about-images--single": singleImage}]}
+          aria-label="Meist fotod"
+        >
+          {aboutImages.map((image, index) => (
+            <figure class="about-image">
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading={index > 1 ? "lazy" : undefined}
+                decoding="async"
+              />
+            </figure>
+          ))}
+        </div>
+      )}
     </div>
-    {aboutImages.length > 0 && (
-      <div class="about-images" aria-label="Meist fotod">
-        {aboutImages.map((image, index) => (
-          <figure class="about-image">
-            <img
-              src={image.src}
-              alt={image.alt}
-              loading={index > 1 ? "lazy" : undefined}
-              decoding="async"
-            />
-          </figure>
-        ))}
-      </div>
-    )}
     <NewsletterSignup />
   </article>
 </BaseLayout>
