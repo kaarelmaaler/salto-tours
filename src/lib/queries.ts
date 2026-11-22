@@ -73,7 +73,13 @@ export const tripBySlugQuery = `*[_type == "trip" && status == "published" && sl
 export const siteSettingsQuery = `*[_id == "siteSettings"][0]{
   siteTitle,
   contactEmail,
-  aboutText
+  aboutText,
+  aboutImages[]{
+    alt,
+    asset,
+    crop,
+    hotspot
+  }
 }`;
 
 type SanityGalleryImage = {
@@ -123,6 +129,7 @@ export type SanitySiteSettings = {
   siteTitle?: string | null;
   contactEmail?: string | null;
   aboutText?: unknown;
+  aboutImages?: SanityGalleryImage[] | null;
 };
 
 const factFields = [
